@@ -60,3 +60,7 @@ func Log(title string,val string){
 	fmt.Println("-----------------------------------------")
 }
 
+func SimpleLog(val string){
+	fmt.Println(val)
+}
+

@@ -7,15 +7,15 @@ type Zone struct {
 }
 
 type Record struct {
-	A     New_A_Record `json:"a,omitempty"`
-	AAAA  []AAAA_Record `json:"aaaa,omitempty"`
-	TXT   []TXT_Record `json:"txt,omitempty"`
-	CNAME New_CNAME_Record `json:"cname,omitempty"`
+	A     *New_A_Record `json:"a,omitempty"`
+	AAAA  *New_AAAA_Record `json:"aaaa,omitempty"`
+	TXT   *New_TXT_Record `json:"txt,omitempty"`
+	CNAME *New_CNAME_Record `json:"cname,omitempty"`
 	NS    []NS_Record `json:"ns,omitempty"`
-	MX    []MX_Record `json:"mx,omitempty"`
-	SRV   []SRV_Record `json:"srv,omitempty"`
-	CAA   []CAA_Record `json:"caa,omitempty"`
-	SOA   SOA_Record `json:"soa,omitempty"`
+	MX    *New_MX_Record `json:"mx,omitempty"`
+	SRV   *New_SRV_Record `json:"srv,omitempty"`
+	CAA   *New_CAA_Record `json:"caa,omitempty"`
+	SOA   *New_SOA_Record `json:"soa,omitempty"`
 }
 
 // A Record
@@ -34,7 +34,7 @@ type Simple_A_Record struct {
 }
 
 type FailOver_A_Record struct {
-	Primary   FailOver_A_Data `json:"primary"`
+	Primary FailOver_A_Data `json:"primary"`
 	Secondary FailOver_A_Data `json:"secondary"`
 }
 
@@ -78,6 +78,28 @@ type TXT_Record struct {
 }
 
 
+type New_TXT_Record struct {
+	Type  string            `json:"type,omitempty"`
+	Value FailOver_TXT_Record `json:"value,omitempty"`
+}
+
+type Simple_TXT_Record struct {
+	Values []TXT_Record `json:"values"`
+}
+
+type FailOver_TXT_Record struct {
+	Primary   FailOver_TXT_Data `json:"primary"`
+	Secondary FailOver_TXT_Data `json:"secondary"`
+}
+
+type FailOver_TXT_Data struct {
+	Data              []TXT_Record `json:"data"`
+	IsHealthy         bool `json:"isHealthy"`
+	HealthCheckConfig FailOverHealthCheckConfig `json:"healthCheckConfig"`
+}
+
+
+
 // CNAME Record
 type CNAME_Record struct {
 	Ttl  uint32 `json:"ttl,omitempty"`
@@ -109,26 +131,6 @@ type FailOver_CNAME_Data struct {
 type NS_Record struct {
 	Ttl  uint32 `json:"ttl,omitempty"`
 	Host string `json:"host"`
-}
-
-type New_NS_Record struct {
-	Type  string            `json:"type,omitempty"`
-	Value FailOver_NS_Record `json:"value,omitempty"`
-}
-
-type Simple_NS_Record struct {
-	Values []NS_Record `json:"values"`
-}
-
-type FailOver_NS_Record struct {
-	Primary   FailOver_NS_Data `json:"primary"`
-	Secondary FailOver_NS_Data `json:"secondary"`
-}
-
-type FailOver_NS_Data struct {
-	Data              []NS_Record `json:"data"`
-	IsHealthy         bool `json:"isHealthy"`
-	HealthCheckConfig FailOverHealthCheckConfig `json:"healthCheckConfig"`
 }
 
 
@@ -202,6 +204,28 @@ type SOA_Record struct {
 }
 
 
+type New_SOA_Record struct {
+	Type  string            `json:"type,omitempty"`
+	Value FailOver_SOA_Record `json:"value,omitempty"`
+}
+
+type Simple_SOA_Record struct {
+	Values []SOA_Record `json:"values"`
+}
+
+type FailOver_SOA_Record struct {
+	Primary   FailOver_SOA_Data `json:"primary"`
+	Secondary FailOver_SOA_Data `json:"secondary"`
+}
+
+type FailOver_SOA_Data struct {
+	Data              []SOA_Record `json:"data"`
+	IsHealthy         bool `json:"isHealthy"`
+	HealthCheckConfig FailOverHealthCheckConfig `json:"healthCheckConfig"`
+}
+
+
+
 // CAA Record
 type CAA_Record struct {
 	Flag  uint8 `json:"flag"`
@@ -231,7 +255,7 @@ type FailOver_CAA_Data struct {
 
 
 type FailOverHealthCheckConfig struct {
-	Type	string `json:"type"`
+	Type	string `json:"type,omitempty"`
 	TargetIPs	[]string `json:"targetIPs,omitempty"`
 	Port	string `json:"port,omitempty"`
 	TargetUrl 	string `json:"targetUrl,omitempty"`
